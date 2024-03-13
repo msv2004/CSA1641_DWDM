@@ -1,0 +1,11 @@
+data <- c(11, 13, 13, 15, 15, 16, 19, 20, 20, 20, 21, 21, 22, 23, 24, 30, 40, 45, 45, 45, 71, 72, 73, 75)
+bin_size <- 3
+smoothed_mean <- filter(data, rep(1/bin_size, bin_size), sides = 2)
+smoothed_median <- filter(data, rep(1/bin_size, bin_size), sides = 2, circular = TRUE)
+smoothed_boundaries <- filter(data, c(0.5, rep(1, bin_size - 1), 0.5), sides = 2)
+cat("Smoothing by bin mean:\n")
+print(smoothed_mean)
+cat("\nSmoothing by bin median:\n")
+print(smoothed_median)
+cat("\nSmoothing by bin boundaries:\n")
+print(smoothed_boundaries)
