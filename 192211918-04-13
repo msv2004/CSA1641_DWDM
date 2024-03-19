@@ -1,0 +1,21 @@
+library(arules)
+transactions <- list(
+  c("M", "O", "N", "K", "E", "Y"),
+  c("D", "O", "N", "K", "E", "Y"),
+  c("M", "A", "K", "E"),
+  c("M", "U", "C", "K", "Y"),
+  c("C", "O", "O", "K", "I", "E")
+)
+trans <- as(transactions, "transactions")
+frequent_itemsets_apriori <- apriori(trans, parameter = list(supp = 0.2, minlen = 2, maxlen = 3))
+inspect(frequent_itemsets_apriori)
+library(FactoMineR)
+frequent_itemsets_fp <- fpgrowth(trans, support = 0.2)
+inspect(frequent_itemsets_fp)
+metarule <- "buys(X, item1) & buys(X, item2) => buys(X, item3)"
+association_rules_apriori <- ruleInduction(frequent_itemsets_apriori, confidence = 0.7)
+association_rules_fp <- ruleInduction(frequent_itemsets_fp, confidence = 0.7)
+matching_rules_apriori <- subset(association_rules_apriori, subset = rhs %in% "item3")
+matching_rules_fp <- subset(association_rules_fp, subset = rhs %in% "item3")
+inspect(matching_rules_apriori)
+inspect(matching_rules_fp)
